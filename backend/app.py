@@ -593,6 +593,9 @@ def election_results(election_id):
         if not election:
             flash('Election not found.')
             return redirect(url_for('index'))
+        # Add this two lines
+        election['status'] = get_election_status(election)
+        election['time_remaining'] = format_time_remaining(election)
         
         parties = list(get_party_collection().find({'election_id': ObjectId(election_id)}).sort('votes', -1))
         
